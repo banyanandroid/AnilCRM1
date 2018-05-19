@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinner_shop_type">
+        <item>Shop Type</item>
+        <item>Retail</item>
+        <item>Whole sale</item>
+        <item>Distributor</item>
+    </string-array>
+
+    <string-array name="spinner_dealer_type">
+        <item>Customer Type</item>
+        <item>Retailer</item>
+        <item>Wholesale</item>
+        <item>Distributor</item>
+    </string-array>
+
+    <string-array name="spinner_reffered_by">
+        <item>Shop Type</item>
+    </string-array>
+
+    <string-array name="spinner_client_type">
+        <item>Shop Type</item>
+    </string-array>
+
+    <string-array name="spinner_design_sheet">
+        <item>Shop Type</item>
+    </string-array>
+
+    <array name="drawable_array">
+
+        <item>@drawable/item_selector</item>
+        <item>@drawable/selector_video</item>
+        <item>@drawable/selector_audio</item>
+        <item>@drawable/selector_photo</item>
+        <item>@drawable/selector_doc</item>
+    </array>
+
+</resources>

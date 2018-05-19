@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#795548</color>
+    <color name="colorPrimaryDark">#3E2723</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColordark">#666</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#FFC400</color>
+    <color name="colorAccentBlue">#2196f3</color>
+
+    <color name="windowBackground2">#FFFFFF</color>
+    <color name="textColorlight">#FFFFFF</color>
+    <color name="txt_black">#000</color>
+    <color name="background">#FFF</color>
+
+    <string-array name="movie_serial_bg">
+        <item>#FFE082</item>
+        <item>#A1887F</item>
+        <item>#B0BEC5</item>
+        <item>#E6EE9C</item>
+        <item>#4DD0E1</item>
+        <item>#9575CD</item>
+    </string-array>
+
+    <color name="default_color">#02a6d8</color>
+    <color name="default_color_dark">#52a6b8</color>
+    <color name="color_red">#FF0000</color>
+
+</resources>
