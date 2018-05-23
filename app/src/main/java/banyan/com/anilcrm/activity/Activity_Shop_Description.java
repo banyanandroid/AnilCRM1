@@ -32,7 +32,6 @@ public class Activity_Shop_Description  extends AppCompatActivity {
     String str_agency,str_shop_name, str_owner_name, str_contact_number, str_landline,
             str_location, str_previous_supply,str_shop_type, str_img, str_remark = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +102,6 @@ public class Activity_Shop_Description  extends AppCompatActivity {
         }catch (Exception e){
 
         }
-
 
     }
 

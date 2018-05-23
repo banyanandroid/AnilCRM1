@@ -46,6 +46,10 @@ public class AppConfig {
     static String url_branch_list = base_url +"branchlist";
 
     static String url_search_shop = base_url +"shop_search";
+    static String url_edit_shop = base_url +"edit_shop";
+
+    static String url_sales_return = base_url +"salesreturn_insert";
+    static String url_sales_return_list = base_url +"salesreturn_list";
 
 
 }

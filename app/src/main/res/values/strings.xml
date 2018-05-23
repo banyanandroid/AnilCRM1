@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Anil Foods</string>
+    <string name="app_name">Anil CRM</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="drawer_open">Open</string>
@@ -8,6 +8,7 @@
     <string name="nav_item_home">Home</string>
     <string name="nav_item_enquiry">Enquiry</string>
     <string name="nav_item_order">Order Form</string>
+    <string name="nav_item_salesreturn">Sales Return</string>
     <string name="nav_item_logout">Logout</string>
 
 
@@ -16,12 +17,14 @@
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_enquiry</item>
         <item>@string/nav_item_order</item>
+        <item>@string/nav_item_salesreturn</item>
         <item>@string/nav_item_logout</item>
     </string-array>
 
     <string name="title_home">Home</string>
     <string name="title_enquiry">Enquiry</string>
     <string name="title_order">Order Form</string>
+    <string name="title_salesreturn">Sales Return</string>
     <string name="title_Logout">Logout</string>
 
     <!-- GCM -->

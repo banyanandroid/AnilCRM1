@@ -152,10 +152,11 @@ public class Tab_Edit_Shop_Fragment extends Fragment {
                 editor.putString("shop_previous", shop_previous);
                 editor.putString("shop_type", shop_type);
                 editor.putString("remark", remark);
-
                 editor.commit();
 
-                Intent i = new Intent(getActivity(), Activity_Shop_Description.class);
+                System.out.println("shop_type : " + shop_type);
+
+                Intent i = new Intent(getActivity(), Activity_Shop_Edit.class);
                 startActivity(i);
             }
 

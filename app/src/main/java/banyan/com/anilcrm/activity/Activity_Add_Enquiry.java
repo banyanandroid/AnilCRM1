@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nguyenhoanglam.imagepicker.model.Config;
+import com.nguyenhoanglam.imagepicker.model.Image;
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -71,7 +72,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     ArrayList<String> Arraylist_dummy = null;
     private int REQUEST_CODE_PICKER = 2000;
 
-    private ArrayList<com.nguyenhoanglam.imagepicker.model.Image> images = new ArrayList<>();
+    private ArrayList<Image> images = new ArrayList<>();
 
     ArrayList<String> Arraylist_dealers = null;
     String[] Arraylist_agency;
@@ -382,64 +383,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
      *  Get Location
      * ********************************/
 
-   /* public void GetLocation(){
-        gps = new GPSTracker(Activity_Add_Enquiry.this);
-        if (gps.canGetLocation()) {
 
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-        } else {
-            gps.showSettingsAlert();
-        }
-
-        if (latitude == 0.0) {
-
-            Strat_track();
-
-
-            Toast.makeText(Activity_Add_Enquiry.this, "Internal Error Lat", Toast.LENGTH_LONG).show();
-
-        } else if (longitude == 0.0) {
-
-            gps = new GPSTracker(Activity_Add_Enquiry.this);
-            if (gps.canGetLocation()) {
-
-                latitude = gps.getLatitude();
-                longitude = gps.getLongitude();
-
-            } else {
-                gps.showSettingsAlert();
-            }
-
-
-            Toast.makeText(Activity_Add_Enquiry.this, "Internal Error lon", Toast.LENGTH_LONG).show();
-
-        } else {
-            System.out.println("LAT : " + latitude);
-            System.out.println("LON : " + longitude);
-
-          //  edt_location.setText("Lat : " + latitude + " Long : " + longitude);
-        }
-    }*/
-
-    /************************************
-     * Start Tracking
-     * ************************************/
-
-   /* private void Strat_track(){
-
-        gps = new GPSTracker(Activity_Add_Enquiry.this);
-        if (gps.canGetLocation()) {
-
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-        } else {
-            gps.showSettingsAlert();
-        }
-
-    }*/
 
     /*******************************
      *  PIC UPLOADER
@@ -447,13 +391,26 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
 
     // Recomended builder
     public void ImagePicker() {
+
         ImagePicker.with(this)
-                .setFolderMode(true) // set folder mode (false by default)
-                .setFolderTitle("Folder") // folder selection title
-                .setImageTitle("Tap to select") // image selection title
-                .setMultipleMode(true) // multi mode (default mode)
-                .setMaxSize(5)// max images can be selected (999 by default)
-                .setKeepScreenOn(true)
+                .setToolbarColor("#212121")         //  Toolbar color
+                .setStatusBarColor("#000000")       //  StatusBar color (works with SDK >= 21  )
+                .setToolbarTextColor("#FFFFFF")     //  Toolbar text color (Title and Done button)
+                .setToolbarIconColor("#FFFFFF")     //  Toolbar icon color (Back and Camera button)
+                .setProgressBarColor("#4CAF50")     //  ProgressBar color
+                .setBackgroundColor("#212121")      //  Background color
+                .setCameraOnly(false)               //  Camera mode
+                .setMultipleMode(true)              //  Select multiple images or single image
+                .setFolderMode(true)                //  Folder mode
+                .setShowCamera(true)                //  Show camera button
+                .setFolderTitle("Anil CRM")           //  Folder title (works with FolderMode = true)
+                .setImageTitle("Shop Images")         //  Image title (works with FolderMode = false)
+                .setDoneTitle("Done")               //  Done button title
+                .setLimitMessage("You have reached selection limit")    // Selection limit message
+                .setMaxSize(5)                     //  Max images can be selected
+                .setSavePath("ImagePicker")         //  Image capture folder name
+                .setSelectedImages(images)          //  Selected images
+                .setKeepScreenOn(true)              //  Keep screen on when selecting images
                 .start();
 
         Config config = new Config();
