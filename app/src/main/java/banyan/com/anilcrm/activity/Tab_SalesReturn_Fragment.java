@@ -32,6 +32,7 @@ import java.util.Map;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.Order_Adapter;
+import banyan.com.anilcrm.adapter.SalesReturn_Adapter;
 import banyan.com.anilcrm.global.SessionManager;
 
 
@@ -62,7 +63,7 @@ public class Tab_SalesReturn_Fragment extends Fragment implements SheetLayout.On
 
     HashMap<String, String> params = new HashMap<String, String>();
 
-    public Order_Adapter adapter;
+    public SalesReturn_Adapter adapter;
 
     String str_select_task_id;
 
@@ -161,7 +162,7 @@ public class Tab_SalesReturn_Fragment extends Fragment implements SheetLayout.On
 
     @Override
     public void onFabAnimationEnd() {
-        Intent intent = new Intent(getActivity(), Activity_Order_Form.class);
+        Intent intent = new Intent(getActivity(), Activity_Sales_Return_Form.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
@@ -198,7 +199,7 @@ public class Tab_SalesReturn_Fragment extends Fragment implements SheetLayout.On
 
                         JSONArray arr;
 
-                        arr = obj.getJSONArray("message");
+                        arr = obj.getJSONArray("salesreturn");
 
                         for (int i = 0; arr.length() > i; i++) {
                             JSONObject obj1 = arr.getJSONObject(i);
@@ -217,7 +218,7 @@ public class Tab_SalesReturn_Fragment extends Fragment implements SheetLayout.On
 
                             complaint_list.add(map);
 
-                            adapter = new Order_Adapter(getActivity(),
+                            adapter = new SalesReturn_Adapter(getActivity(),
                                     complaint_list);
                             List.setAdapter(adapter);
 

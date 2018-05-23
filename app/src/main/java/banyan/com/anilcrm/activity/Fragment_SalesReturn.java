@@ -69,7 +69,7 @@ public class Fragment_SalesReturn extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Tab_Order_Fragment();
+                case 0 : return new Tab_SalesReturn_Fragment();
                 //case 2 : return new Tab_Enquiry_Location_Fragment();
             }
             return null;
@@ -91,7 +91,7 @@ public class Fragment_SalesReturn extends Fragment {
 
             switch (position){
                 case 0 :
-                    return "My Orders";
+                    return "Sales Return";
 
               /*  case 2 :
                     return "Locations";*/

@@ -1,13 +1,11 @@
 package banyan.com.anilcrm.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +33,6 @@ import java.util.Map;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.Enquiry_Adapter;
-import banyan.com.anilcrm.adapter.Location_Adapter;
 import banyan.com.anilcrm.global.SessionManager;
 import dmax.dialog.SpotsDialog;
 

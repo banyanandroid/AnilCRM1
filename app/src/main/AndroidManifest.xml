@@ -103,6 +103,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".activity.Activity_Sales_Return_Form"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>

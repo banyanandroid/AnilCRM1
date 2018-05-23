@@ -40,6 +40,7 @@ import java.util.Map;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.MyListAdapter;
+import banyan.com.anilcrm.adapter.MyList_SaleseAdapter;
 import banyan.com.anilcrm.global.SessionManager;
 import banyan.com.anilcrm.model.Hero;
 import dmax.dialog.SpotsDialog;
@@ -275,7 +276,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
                     heroList.add(new Hero(str_product_id, str_group_id, "", str_product, str_qty));
 
-                    MyListAdapter adapter = new MyListAdapter(Activity_Sales_Return_Form.this, R.layout.my_custom_list, heroList);
+                    MyList_SaleseAdapter adapter = new MyList_SaleseAdapter(Activity_Sales_Return_Form.this, R.layout.my_custom_list, heroList);
                     list_cart.setAdapter(adapter);
                     Fun_Total_Cal();
                     TastyToast.makeText(getApplicationContext(), "Product Added Into Return Cart", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);

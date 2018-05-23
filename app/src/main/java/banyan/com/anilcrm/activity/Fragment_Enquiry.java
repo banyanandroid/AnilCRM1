@@ -28,6 +28,7 @@ public class Fragment_Enquiry extends Fragment {
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static int int_items = 3 ;
+    String value = "nothing";
 
     @Nullable
     @Override
