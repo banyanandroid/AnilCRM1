@@ -51,5 +51,7 @@ public class AppConfig {
     static String url_sales_return = base_url +"salesreturn_insert";
     static String url_sales_return_list = base_url +"salesreturn_list";
 
+    static String url_target = base_url +"target_listing";
+
 
 }

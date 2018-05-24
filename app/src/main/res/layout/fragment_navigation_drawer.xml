@@ -1,25 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_alignParentTop="true"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:src="@drawable/logo_anil"
-            android:layout_centerInParent="true" />
+            android:src="@drawable/logo_anil" />
 
-    </RelativeLayout>
+
+        <TextView
+            android:id="@+id/drawer_txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:text="Username"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary" />
 
 
     <android.support.v7.widget.RecyclerView
@@ -30,4 +50,4 @@
         android:layout_marginTop="15dp" />
 
 
-</RelativeLayout>
+</LinearLayout>

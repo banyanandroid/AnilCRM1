@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -13,7 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         android:weightSum="10">
 
@@ -26,6 +28,18 @@
             android:layout_weight="1.5"
             android:src="@drawable/logo_anil" />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:text="Anil CRM"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,7 +47,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_weight="8.5"
+            android:layout_weight="8"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -47,8 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="User Email"
-                    android:singleLine="true"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:singleLine="true" />
 
                 <requestFocus />
             </android.support.design.widget.TextInputLayout>
@@ -64,8 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:singleLine="true"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -89,23 +103,8 @@
                 android:weightSum="2">
 
                 <Button
-                    android:id="@+id/btn_register"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape"
-                    android:gravity="center"
-                    android:text="Register"
-                    android:textColor="@color/textColorlight"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Button
                     android:id="@+id/btn_login"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -146,8 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/activity_vertical_margin"
-                    android:text="The Banyan Infotech"
+                    android:text=" The Banyan Infotech"
                     android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>

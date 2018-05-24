@@ -54,7 +54,7 @@ public class Activity_Login extends AppCompatActivity {
 
     EditText edt_user_email, edt_password;
 
-    Button btn_login, btn_register;
+    Button btn_login;
 
     String str_user_email, str_password = "";
 
@@ -77,8 +77,6 @@ public class Activity_Login extends AppCompatActivity {
         edt_user_email = (EditText) findViewById(R.id.edt_username);
         edt_password = (EditText) findViewById(R.id.edt_password);
         btn_login = (Button) findViewById(R.id.btn_login);
-        btn_register = (Button) findViewById(R.id.btn_register);
-
 
         btn_login.setOnClickListener(new Button.OnClickListener() {
 
@@ -109,16 +107,6 @@ public class Activity_Login extends AppCompatActivity {
 
                 }
 
-            }
-        });
-
-        btn_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(getApplicationContext(), Activity_Register.class);
-                startActivity(i);
-                finish();
             }
         });
 

@@ -241,18 +241,22 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_home);
                 break;
             case 1:
+                fragment = new Fragment_Target();
+                title = getString(R.string.title_target);
+                break;
+            case 2:
                 fragment = new Fragment_Enquiry();
                 title = getString(R.string.title_enquiry);
                 break;
-            case 2:
+            case 3:
                 fragment = new Fragment_Order();
                 title = getString(R.string.title_order);
                 break;
-            case 3:
+            case 4:
                 fragment = new Fragment_SalesReturn();
                 title = getString(R.string.title_salesreturn);
                 break;
-            case 4:
+            case 5:
                 stoptimertask();
                 Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_LONG).show();
                 session.logoutUser();

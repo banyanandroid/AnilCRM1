@@ -17,20 +17,24 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.NavigationDrawerAdapter;
+import banyan.com.anilcrm.global.SessionManager;
 import banyan.com.anilcrm.model.NavDrawerItem;
 
 
 public class FragmentDrawer extends Fragment {
 
     private static String TAG = FragmentDrawer.class.getSimpleName();
+
+    TextView txt_username;
 
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -39,6 +43,11 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
+
+    // Session Manager Class
+    SessionManager session;
+
+    String str_name, str_id;
 
     public FragmentDrawer() {
 
@@ -75,6 +84,15 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+
+        txt_username = (TextView) layout.findViewById(R.id.drawer_txt_name);
+
+        session = new SessionManager(getActivity());
+        HashMap<String, String> user = session.getUserDetails();
+        str_name = user.get(SessionManager.KEY_USER);
+        str_id = user.get(SessionManager.KEY_USER_ID);
+
+        txt_username.setText("" + str_name);
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);

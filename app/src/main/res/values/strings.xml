@@ -6,6 +6,7 @@
     <string name="drawer_close">Close</string>
 
     <string name="nav_item_home">Home</string>
+    <string name="nav_item_target">Target</string>
     <string name="nav_item_enquiry">Enquiry</string>
     <string name="nav_item_order">Order Form</string>
     <string name="nav_item_salesreturn">Sales Return</string>
@@ -15,6 +16,7 @@
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
+        <item>@string/nav_item_target</item>
         <item>@string/nav_item_enquiry</item>
         <item>@string/nav_item_order</item>
         <item>@string/nav_item_salesreturn</item>
@@ -22,6 +24,7 @@
     </string-array>
 
     <string name="title_home">Home</string>
+    <string name="title_target">Target</string>
     <string name="title_enquiry">Enquiry</string>
     <string name="title_order">Order Form</string>
     <string name="title_salesreturn">Sales Return</string>
