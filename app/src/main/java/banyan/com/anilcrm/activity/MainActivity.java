@@ -155,13 +155,13 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
             if (value.equals("enquiry")) {
 
-                displayView(1);
+                displayView(2);
 
             } else if (value.equals("order")){
-                displayView(2);
+                displayView(3);
             }
             else if (value.equals("sales")){
-                displayView(3);
+                displayView(4);
             }
             else if (value.equals("nothing")) {
 
@@ -257,6 +257,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_salesreturn);
                 break;
             case 5:
+                fragment = new Fragment_Combo_Offer();
+                title = getString(R.string.title_combo_oofers);
+                break;
+            case 6:
                 stoptimertask();
                 Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_LONG).show();
                 session.logoutUser();
