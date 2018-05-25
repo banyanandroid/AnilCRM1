@@ -1,11 +1,13 @@
 package banyan.com.anilcrm.activity;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import banyan.com.anilcrm.R;
+import banyan.com.anilcrm.database.DBManager;
 import banyan.com.anilcrm.global.GPSTracker;
 import banyan.com.anilcrm.global.SessionManager;
 import dmax.dialog.SpotsDialog;
@@ -92,10 +95,11 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     EditText edt_shop_name, edt_owner_name, edt_contact_number, edt_landmark,
             edt_ordervalue, edt_previous_supply, edt_remarks;
 
-    String str_shop_name, str_owner_name, str_contact_number, str_landmark,
-            str_order_value, str_previous_supply, str_shop_type,str_shop_type_id , str_agency, str_agency_id, str_loc, str_loc_id, str_remarks = "";
+    String str_shop_name = "", str_owner_name ="", str_contact_number ="", str_landmark ="",
+            str_order_value = "", str_previous_supply = "", str_shop_type = "", str_shop_type_id = "", str_agency ="", str_agency_id= "",
+            str_loc ="", str_loc_id = "", str_remarks = "";
 
-    String str_latitude, str_longitude = "";
+    String str_latitude = "", str_longitude = "";
     String str_attendance = "";
 
     SearchableSpinner spinner_region;
@@ -129,7 +133,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
             public void onClick(View v) {
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("from_value","enquiry");
+                i.putExtra("from_value", "enquiry");
                 startActivity(i);
                 finish();
             }
@@ -141,14 +145,14 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         str_user_email = user.get(SessionManager.KEY_USER);
         str_user_id = user.get(SessionManager.KEY_USER_ID);
 
-        System.out.println("SESSION USER EMAIL   " + str_user_email);
-        System.out.println("SESSION USER ID      " + str_user_id);
+        System.out.println("### SESSION USER EMAIL   " + str_user_email);
+        System.out.println("### SESSION USER ID      " + str_user_id);
 
         edt_shop_name = (EditText) findViewById(R.id.edt_shop_name);
         edt_owner_name = (EditText) findViewById(R.id.edt_owner_name);
         edt_contact_number = (EditText) findViewById(R.id.edt_contact_number);
         edt_landmark = (EditText) findViewById(R.id.edt_landmark);
-       // edt_ordervalue = (EditText) findViewById(R.id.edt_order_value);
+        // edt_ordervalue = (EditText) findViewById(R.id.edt_order_value);
         edt_previous_supply = (EditText) findViewById(R.id.edt_previous_supply);
         edt_remarks = (EditText) findViewById(R.id.edt_remarks);
 
@@ -180,7 +184,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                System.out.println("Shop");
+                System.out.println("### Shop");
 
                 str_shop_type = spn_shop_type.getSelectedItem().toString();
 
@@ -188,7 +192,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 str_region = t1.getText().toString();
                 str_region_id = Arraylist_region_id.get(position);
 
-                System.out.println("Region ID : " + str_region_id);
+                System.out.println("### Region ID : " + str_region_id);
 
                 dialog = new SpotsDialog(Activity_Add_Enquiry.this);
                 dialog.show();
@@ -211,11 +215,8 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
 
                 str_shop_type = parent.getItemAtPosition(pos).toString();
 
-                if (str_shop_type.equals("Shop Type")) {
+                System.out.println("### str_shop_type : " + str_shop_type);
 
-                } else {
-
-                }
             }
 
             @Override
@@ -243,7 +244,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 queue = Volley.newRequestQueue(Activity_Add_Enquiry.this);
                 Function_Get_Agency_Location();
 
-                System.out.println("ID : " + str_agency + " :   " + str_agency_id);
+                System.out.println("### ID : " + str_agency + " :   " + str_agency_id);
 
             }
 
@@ -262,7 +263,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 str_loc = Arraylist_location.get(arg2);
                 str_loc_id = Arraylist_location_id.get(arg2);
 
-                System.out.println("ID : " + str_loc + " :   " + str_loc_id);
+                System.out.println("### ID : " + str_loc + " :   " + str_loc_id);
 
             }
 
@@ -311,7 +312,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 } else if (str_contact_number.equals("")) {
                     TastyToast.makeText(getApplicationContext(), "Enter Contact Number", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                     edt_contact_number.setError("Contact Number cannot be empty");
-                }else if (10 > str_contact_number.length()) {
+                } else if (10 > str_contact_number.length()) {
                     TastyToast.makeText(getApplicationContext(), "Enter a Valid Contact Number", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                     edt_contact_number.setError("Contact Number should be 10 digit");
                 } else if (str_shop_type.equals("Shop Type")) {
@@ -322,25 +323,64 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                     TastyToast.makeText(getApplicationContext(), "Select Location", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else {
 
+
                     try {
+
+                        // Vivekanandhan
 
                         if (str_shop_type.equals("Shop Type")) {
                             str_shop_type_id = "";
-                        } else  if (str_shop_type.equals("Retail")) {
+                        } else if (str_shop_type.equals("Retail")) {
                             str_shop_type_id = "1";
-                        } if (str_shop_type.equals("Whole sale")) {
+                        }
+                        if (str_shop_type.equals("Whole sale")) {
                             str_shop_type_id = "2";
-                        } if (str_shop_type.equals("Distributor")) {
+                        }
+                        if (str_shop_type.equals("Distributor")) {
                             str_shop_type_id = "3";
                         }
 
-                        dialog = new SpotsDialog(Activity_Add_Enquiry.this);
-                        dialog.show();
-                        queue = Volley.newRequestQueue(Activity_Add_Enquiry.this);
-                        Function_Submit_Enquiry();
-                    } catch (Exception e) {
+                        System.out.println("### str_shop_type_id : as id : " + str_shop_type_id);
+                        // check network is connected
+                        if (isNetworkConnected()) {
 
+                            dialog = new SpotsDialog(Activity_Add_Enquiry.this);
+                            dialog.show();
+                            queue = Volley.newRequestQueue(Activity_Add_Enquiry.this);
+                            Function_Submit_Enquiry();
+
+                        } else {
+
+                            //get details
+                            //str_Shop_id
+                            //str_final_order
+                            //str_user_id
+                            System.out.println("### insert_Add_Enquiry str_user_id : "+str_user_id);
+                            //store data in local db
+                            DBManager dbManager = new DBManager(Activity_Add_Enquiry.this);
+                            dbManager.open();
+                            long response = dbManager.insert_Add_Enquiry(
+                                    str_user_id, str_shop_name, str_owner_name, str_contact_number,
+                                    str_landmark, str_latitude, str_longitude, str_order_value,
+                                    str_previous_supply, str_agency_id, str_shop_type_id,
+                                    listString, str_loc_id, str_remarks, str_region_id);
+                            System.out.println("### response : " + response);
+                            if (response == -1) {
+
+                                TastyToast.makeText(getApplicationContext(), "Oops...! Try again Later..!", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+
+                            } else {
+
+                                TastyToast.makeText(getApplicationContext(), "Enquiry Added Successfully!", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("### Exception");
                     }
+
 
                 }
 
@@ -366,8 +406,8 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     public void onLocationReady(Location location) {
         Log.d("LOCATION", "onLocationReady: lat=" + location.getLatitude() + " lon=" + location.getLongitude());
 
-        System.out.println("LOCATION 1 :: " + location.getLatitude());
-        System.out.println("LOCATION 2 :: " + location.getLongitude());
+        System.out.println("### LOCATION 1 :: " + location.getLatitude());
+        System.out.println("### LOCATION 2 :: " + location.getLongitude());
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
@@ -382,6 +422,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     /********************************
      *  Get Location
      * ********************************/
+
 
 
 
@@ -448,7 +489,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
 
         //listString = TextUtils.join("IMAGE:", Arraylist_image_encode);  Array to String
 
-        for (String s : Arraylist_image_encode){
+        for (String s : Arraylist_image_encode) {
             listString += s + "IMAGE:";
         }
 
@@ -461,7 +502,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     public void Function_Get_Region() {
 
         String tag_json_obj = "json_obj_req";
-        System.out.println("CAME 1");
+        System.out.println("### CAME 1");
         StringRequest request = new StringRequest(Request.Method.POST,
                 AppConfig.url_branch_list, new Response.Listener<String>() {
 
@@ -492,8 +533,6 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                                         .setAdapter(new ArrayAdapter<String>(Activity_Add_Enquiry.this,
                                                 android.R.layout.simple_spinner_dropdown_item,
                                                 Arraylist_region_name));
-
-
 
                             } catch (Exception e) {
 
@@ -547,7 +586,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     public void Function_Get_Agency() {
 
         String tag_json_obj = "json_obj_req";
-        System.out.println("CAME 1");
+        System.out.println("### CAME 1");
         StringRequest request = new StringRequest(Request.Method.POST,
                 AppConfig.url_list_agency, new Response.Listener<String>() {
 
@@ -630,8 +669,8 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 params.put("user_id", str_user_id);
                 params.put("branch_id", str_region_id);
 
-                System.out.println("USER IDDD :: " + str_user_id);
-                System.out.println("Branch IDDD :: " + str_region_id);
+                System.out.println("### USER IDDD :: " + str_user_id);
+                System.out.println("### Branch IDDD :: " + str_region_id);
 
                 return checkParams(params);
             }
@@ -663,7 +702,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     public void Function_Get_Agency_Location() {
 
         String tag_json_obj = "json_obj_req";
-        System.out.println("CAME 1");
+        System.out.println("### CAME 1");
         StringRequest request = new StringRequest(Request.Method.POST,
                 AppConfig.url_list_location, new Response.Listener<String>() {
 
@@ -757,8 +796,8 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 params.put("agency_id", str_agency_id);
                 params.put("user_id", str_user_id);
 
-                System.out.println("AGENCYY IDDD :: " + str_agency_id);
-                System.out.println("USEERRR IDDD :: " + str_user_id);
+                System.out.println("### AGENCYY IDDD :: " + str_agency_id);
+                System.out.println("### USEERRR IDDD :: " + str_user_id);
 
                 return params;
             }
@@ -777,6 +816,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         str_latitude = String.valueOf(latitude);
         str_longitude = String.valueOf(longitude);
 
+        System.out.println("###  AppConfig.url_add_shop "+ AppConfig.url_add_shop);
         StringRequest request = new StringRequest(Request.Method.POST,
                 AppConfig.url_add_shop, new Response.Listener<String>() {
 
@@ -784,6 +824,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
                 try {
+                    System.out.println("###  response"+ response);
                     JSONObject obj = new JSONObject(response);
                     int success = obj.getInt("status");
 //                    String message = obj.getString("message");
@@ -860,21 +901,21 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 params.put("remarks", str_remarks);
                 params.put("branch_id", str_region_id);
 
-
-                System.out.println("user_id  " + str_user_id);
-                System.out.println("shop_name " + str_shop_name);
-                System.out.println("name  " + str_owner_name);
-                System.out.println("mobileno  " + str_contact_number);
-                System.out.println("landline  " + str_landmark);
-                System.out.println("lat  " + str_latitude);
-                System.out.println("lon  " + str_longitude);
-                System.out.println("area  " + str_order_value);
-                System.out.println("shop_previous  " + str_previous_supply);
-                System.out.println("agency_id  " + str_agency_id);
-                System.out.println("type  " + str_shop_type_id);
-                System.out.println("image  " + listString);
-                System.out.println("remarks " + str_remarks);
-                System.out.println("branch_id " + str_region_id);
+                System.out.println("### user_id  " + str_user_id);
+                System.out.println("### shop_name " + str_shop_name);
+                System.out.println("### name  " + str_owner_name);
+                System.out.println("### mobileno  " + str_contact_number);
+                System.out.println("### landline  " + str_landmark);
+                System.out.println("### lat  " + str_latitude);
+                System.out.println("### lon  " + str_longitude);
+                System.out.println("### area  " + str_order_value);
+                System.out.println("### shop_previous  " + str_previous_supply);
+                System.out.println("### agency_id  " + str_agency_id);
+                System.out.println("### type  " + str_shop_type_id);
+                System.out.println("### image  " + listString);
+                System.out.println("### loc  " + str_loc_id);
+                System.out.println("### remarks " + str_remarks);
+                System.out.println("### branch_id " + str_region_id);
 
                 return checkParams(params);
             }
@@ -896,6 +937,14 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         request.setRetryPolicy(policy);
         // Adding request to request queue
         queue.add(request);
+    }
+
+
+    private boolean isNetworkConnected() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
     }
 
 

@@ -1,8 +1,10 @@
 package banyan.com.anilcrm.activity;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import java.util.Map;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.MyListAdapter;
+import banyan.com.anilcrm.database.DBManager;
 import banyan.com.anilcrm.global.SessionManager;
 import banyan.com.anilcrm.model.Hero;
 import dmax.dialog.SpotsDialog;
@@ -340,6 +343,7 @@ public class Activity_Order_Form extends AppCompatActivity {
 
         String tag_json_obj = "json_obj_req";
         System.out.println("CAME 1");
+        System.out.println("### AppConfig.url_user_shop_list " + AppConfig.url_user_shop_list);
         StringRequest request = new StringRequest(Request.Method.POST,
                 AppConfig.url_user_shop_list, new Response.Listener<String>() {
 
@@ -412,6 +416,8 @@ public class Activity_Order_Form extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("user_id", str_user_id);
+
+                System.out.println("### user_id : "+str_user_id);
 
                 return params;
             }
@@ -598,6 +604,8 @@ public class Activity_Order_Form extends AppCompatActivity {
     }
 
     /********************************
+     * Vivekanandhan
+     *
      * Function Get Product
      * ******************************/
     public void Get_VALUE() {
@@ -649,12 +657,63 @@ public class Activity_Order_Form extends AppCompatActivity {
                 System.out.println("SHOP ID   :::::" + str_Shop_id);
 
                 try {
-                    dialog = new SpotsDialog(Activity_Order_Form.this);
-                    dialog.show();
-                    queue = Volley.newRequestQueue(Activity_Order_Form.this);
-                    Function_Proceed();
-                } catch (Exception e) {
 
+                    // Vivekanandhan
+                    // check network is connected
+                    if (isNetworkConnected()){
+
+                        dialog = new SpotsDialog(Activity_Order_Form.this);
+                        dialog.show();
+                        queue = Volley.newRequestQueue(Activity_Order_Form.this);
+                        Function_Proceed();
+
+                    }else{
+
+                        //get details
+                        //str_Shop_id
+                        //str_final_order
+                        //str_user_id
+
+                        //store data in local db
+                        DBManager dbManager = new DBManager(this);
+                        dbManager.open();
+                        long response = dbManager.insert_Order_Form(str_Shop_id, str_final_order, str_user_id);
+                        System.out.println("### response : " + response);
+                        if (response == -1){
+
+                            TastyToast.makeText(getApplicationContext(), "Oops...! Try again Later..!", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+
+                        }else{
+
+                            TastyToast.makeText(getApplicationContext(), "Order Placed Successfully!", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+                            new AlertDialog.Builder(Activity_Order_Form.this)
+                                    .setTitle("Anil Foods")
+                                    .setMessage("Order Placed Successfully !")
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .setPositiveButton("Ok",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+
+                                                                    int which) {
+                                                    // TODO Auto-generated method stub
+
+                                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                                    i.putExtra("from_value", "order");
+                                                    startActivity(i);
+
+                                                }
+
+                                            }).show();
+
+
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("### Exception");
                 }
             }
         }else {
@@ -763,4 +822,12 @@ public class Activity_Order_Form extends AppCompatActivity {
         // Adding request to request queue
         queue.add(request);
     }
+
+    private boolean isNetworkConnected() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+
 }

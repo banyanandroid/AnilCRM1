@@ -26,7 +26,7 @@ public class AppConfig {
     static String url_list_agency = base_url +"list_agencies";
     static String url_list_location = base_url +"agencylocation_list";
     static String url_list_location_individual = base_url +"agencieslist";
-    static String url_add_shop = base_url +"add_shop";
+    public static String url_add_shop = base_url +"add_shop";
     static String url_list_shop = base_url +"shop_list";
 
     static String url_new_enquiries = base_url +"list_new_enquiry";
@@ -41,7 +41,7 @@ public class AppConfig {
    static String url_user_shop_list = base_url +"user_shop_list";
    static String url_user_group_list = base_url +"productgrouplist";
    static String url_user_product = base_url +"productlist";
-    static String url_add_order = base_url +"addorder";
+   public static String url_add_order = base_url +"addorder";
    static String url_order_list = base_url +"order_list";
     static String url_branch_list = base_url +"branchlist";
 
