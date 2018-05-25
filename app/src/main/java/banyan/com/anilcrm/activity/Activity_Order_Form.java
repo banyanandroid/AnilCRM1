@@ -669,7 +669,7 @@ public class Activity_Order_Form extends AppCompatActivity {
 
                     }else{
 
-                        //get details
+                        //get detai
                         //str_Shop_id
                         //str_final_order
                         //str_user_id
