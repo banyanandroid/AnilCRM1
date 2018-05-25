@@ -108,6 +108,13 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:screenOrientation="portrait"></activity>
 
+        <!--To know when  internet connect is available-->
+        <receiver android:name=".broadcast.BroadCastReceiver_Network_Connection">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
