@@ -3,7 +3,7 @@
     package="banyan.com.anilcrm">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- Required to show current location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Network State Permissions to detect Internet status -->
@@ -88,25 +88,49 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
 
-        <activity android:name=".activity.Activity_Shop_Description"
+        <activity
+            android:name=".activity.Activity_Shop_Description"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
 
-        <activity android:name=".activity.Activity_Order_Form"
+        <activity
+            android:name=".activity.Activity_Order_Form"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
 
-        <activity android:name=".activity.Activity_Shop_Edit"
+        <activity
+            android:name=".activity.Activity_Shop_Edit"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
 
-        <activity android:name=".activity.Activity_Sales_Return_Form"
+        <activity
+            android:name=".activity.Activity_Sales_Return_Form"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+
+        <!--to upload local order form data to server-->
+        <service
+            android:name=".service.Service_Order_Form"
+            android:exported="false" />
+
+
+        <!--to upload local add enquiry data to server-->
+        <service
+            android:name=".service.Service_Add_Enquiry"
+            android:exported="false" />
+
+
+        <!--To know when  internet connect is available-->
+        <receiver android:name=".broadcast.BroadCastReceiver_Network_Connection">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action>
+            </intent-filter>
+        </receiver>
+
 
         <!--To know when  internet connect is available-->
         <receiver android:name=".broadcast.BroadCastReceiver_Network_Connection">
