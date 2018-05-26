@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:gravity="center"
-                android:hint="Type Shop Namme / Number"
+                android:hint="Type Shop Name / Number"
                 android:inputType="text"
                 android:singleLine="true" />
 

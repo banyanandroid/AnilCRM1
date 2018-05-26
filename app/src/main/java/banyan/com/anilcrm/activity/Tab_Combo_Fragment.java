@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import banyan.com.anilcrm.R;
+import banyan.com.anilcrm.adapter.Combo_Adapter;
 import banyan.com.anilcrm.adapter.SalesReturn_Adapter;
 import banyan.com.anilcrm.global.SessionManager;
 
@@ -54,15 +55,18 @@ public class Tab_Combo_Fragment extends Fragment implements SheetLayout.OnFabAni
     private ListView List;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public static final String TAG_SHOP_NAME = "shop_name";
-    public static final String TAG_QTY = "qty";
-    public static final String TAG_STATUS = "approval_status";
+    public static final String TAG_OFFER_NAME = "offer_name";
+    public static final String TAG_SCHEME_CODE = "scheme_code";
+    public static final String TAG_FROM_DATE = "from_date";
+    public static final String TAG_TO_DATE = "to_date";
+    public static final String TAG_CATEGORY_NAME = "category_name";
+    public static final String TAG_PRODUCT_NAME = "product_name";
 
     static ArrayList<HashMap<String, String>> complaint_list;
 
     HashMap<String, String> params = new HashMap<String, String>();
 
-    public SalesReturn_Adapter adapter;
+    public Combo_Adapter adapter;
 
     String str_select_task_id;
 
@@ -72,7 +76,7 @@ public class Tab_Combo_Fragment extends Fragment implements SheetLayout.OnFabAni
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.tab_new_sales_return_layout, null);
+        View rootview = inflater.inflate(R.layout.tab_combo_offer_layout, null);
 
         // ButterKnife.bind(getActivity());
 
@@ -131,9 +135,12 @@ public class Tab_Combo_Fragment extends Fragment implements SheetLayout.OnFabAni
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                String shop_id = complaint_list.get(position).get(TAG_SHOP_NAME);
-                String shop_owner_name = complaint_list.get(position).get(TAG_QTY);
-                String shop_contact = complaint_list.get(position).get(TAG_STATUS);
+                String offer_name = complaint_list.get(position).get(TAG_OFFER_NAME);
+                String scheme_code = complaint_list.get(position).get(TAG_SCHEME_CODE);
+                String from_date = complaint_list.get(position).get(TAG_FROM_DATE);
+                String to_date = complaint_list.get(position).get(TAG_TO_DATE);
+                String category_name = complaint_list.get(position).get(TAG_CATEGORY_NAME);
+                String product_name = complaint_list.get(position).get(TAG_PRODUCT_NAME);
 
 
             }
@@ -182,10 +189,10 @@ public class Tab_Combo_Fragment extends Fragment implements SheetLayout.OnFabAni
 
         String tag_json_obj = "json_obj_req";
 
-        System.out.println("CAME DA Enquiry" + AppConfig.url_sales_return_list);
+        System.out.println("CAME DA Enquiry" + AppConfig.url_combo_list);
 
         StringRequest request = new StringRequest(Request.Method.POST,
-                AppConfig.url_sales_return_list, new Response.Listener<String>() {
+                AppConfig.url_combo_list, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -198,26 +205,32 @@ public class Tab_Combo_Fragment extends Fragment implements SheetLayout.OnFabAni
 
                         JSONArray arr;
 
-                        arr = obj.getJSONArray("salesreturn");
+                        arr = obj.getJSONArray("combooffer");
 
                         for (int i = 0; arr.length() > i; i++) {
                             JSONObject obj1 = arr.getJSONObject(i);
 
-                            String shop_id = obj1.getString(TAG_SHOP_NAME);
-                            String QTY = obj1.getString(TAG_QTY);
-                            String PRICE = obj1.getString(TAG_STATUS);
+                            String offer_name = obj1.getString(TAG_OFFER_NAME);
+                            String scheme_code = obj1.getString(TAG_SCHEME_CODE);
+                            String from_date = obj1.getString(TAG_FROM_DATE);
+                            String to_date = obj1.getString(TAG_TO_DATE);
+                            String category_name = obj1.getString(TAG_CATEGORY_NAME);
+                            String product_name = obj1.getString(TAG_PRODUCT_NAME);
 
                             // creating new HashMap
                             HashMap<String, String> map = new HashMap<String, String>();
 
                             // adding each child node to HashMap key => value
-                            map.put(TAG_SHOP_NAME, shop_id);
-                            map.put(TAG_QTY, QTY);
-                            map.put(TAG_STATUS, PRICE);
+                            map.put(TAG_OFFER_NAME, offer_name);
+                            map.put(TAG_SCHEME_CODE, scheme_code);
+                            map.put(TAG_FROM_DATE, from_date);
+                            map.put(TAG_TO_DATE, to_date);
+                            map.put(TAG_CATEGORY_NAME, category_name);
+                            map.put(TAG_PRODUCT_NAME, product_name);
 
                             complaint_list.add(map);
 
-                            adapter = new SalesReturn_Adapter(getActivity(),
+                            adapter = new Combo_Adapter(getActivity(),
                                     complaint_list);
                             List.setAdapter(adapter);
 

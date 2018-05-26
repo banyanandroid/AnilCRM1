@@ -163,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             else if (value.equals("sales")){
                 displayView(4);
             }
+            else if (value.equals("combo")){
+                displayView(5);
+            }
             else if (value.equals("nothing")) {
 
                 displayView(0);

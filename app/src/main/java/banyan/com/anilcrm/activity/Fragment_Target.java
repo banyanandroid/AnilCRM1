@@ -209,7 +209,7 @@ public class Fragment_Target extends Fragment {
 
         PieData data = new PieData(labels, dataset);
         dataset.setColors(ColorTemplate.JOYFUL_COLORS); //
-        pieChart.setDescription("Amount Targer");
+        pieChart.setDescription("");
         pieChart.setData(data);
 
 

@@ -53,5 +53,8 @@ public class AppConfig {
 
     static String url_target = base_url + "target_listing";
 
+    static String url_combo_list = base_url + "combo_listing";
+    static String url_combo_add = base_url + "combo_insert";
+
 
 }

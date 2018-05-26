@@ -102,7 +102,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
     String str_latitude = "", str_longitude = "";
     String str_attendance = "";
 
-    SearchableSpinner spinner_region;
+    /*SearchableSpinner spinner_region;*/
 
     ArrayList<String> Arraylist_region_id = null;
     ArrayList<String> Arraylist_region_name = null;
@@ -156,7 +156,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         edt_previous_supply = (EditText) findViewById(R.id.edt_previous_supply);
         edt_remarks = (EditText) findViewById(R.id.edt_remarks);
 
-        spinner_region = (SearchableSpinner) findViewById(R.id.order_spinner_type);
+        /*spinner_region = (SearchableSpinner) findViewById(R.id.order_spinner_type);*/
 
         spn_shop_type = (Spinner) findViewById(R.id.spn_shop_type);
         spn_agency = (Spinner) findViewById(R.id.spn_agency);
@@ -180,7 +180,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         Arraylist_location = new ArrayList<String>();
         Arraylist_location_id = new ArrayList<String>();
 
-        spinner_region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* spinner_region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -205,7 +205,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
 
         spn_shop_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -319,6 +319,8 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                     TastyToast.makeText(getApplicationContext(), "Select Shop Type", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else if (str_agency_id.equals("")) {
                     TastyToast.makeText(getApplicationContext(), "Select Agency", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                }else if (listString.equals("")) {
+                    TastyToast.makeText(getApplicationContext(), "Please Select Atleast 1 Image", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else if (str_loc_id.equals("")) {
                     TastyToast.makeText(getApplicationContext(), "Select Location", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else {
@@ -389,10 +391,15 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
         });
 
 
+        /*dialog = new SpotsDialog(Activity_Add_Enquiry.this);
+        dialog.show();
+        queue = Volley.newRequestQueue(Activity_Add_Enquiry.this);
+        Function_Get_Region();*/
+
         dialog = new SpotsDialog(Activity_Add_Enquiry.this);
         dialog.show();
         queue = Volley.newRequestQueue(Activity_Add_Enquiry.this);
-        Function_Get_Region();
+        Function_Get_Agency();
     }
 
 
@@ -499,7 +506,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
      * GET Region
      ***************************/
 
-    public void Function_Get_Region() {
+   /* public void Function_Get_Region() {
 
         String tag_json_obj = "json_obj_req";
         System.out.println("### CAME 1");
@@ -576,7 +583,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
 
         // Adding request to request queue
         queue.add(request);
-    }
+    }*/
 
 
     /***************************
@@ -667,7 +674,7 @@ public class Activity_Add_Enquiry extends AppCompatActivity implements SimpleLoc
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("user_id", str_user_id);
-                params.put("branch_id", str_region_id);
+             //   params.put("branch_id", str_region_id);
 
                 System.out.println("### USER IDDD :: " + str_user_id);
                 System.out.println("### Branch IDDD :: " + str_region_id);

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/order_spinner_category"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                app:hintText="Select Category" />
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/order_spinner_product"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                app:hintText="Select Product" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/order_btn_add_to_Cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="Add To Cart" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="6.2"
+            android:orientation="vertical"
+            android:weightSum="5.7">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                android:weightSum="1.5">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:text="Product Name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/order_list_product_display"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6.1"></ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:gravity="center_vertical|end"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edt_textinput_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/order_edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Offer Name"
+                    android:inputType="phone"
+                    android:editable="false"
+                    android:singleLine="true"
+                    android:textColor="@color/textColordark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edt_textinput_qty"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/order_edt_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Amount"
+                    android:inputType="phone"
+                    android:editable="false"
+                    android:singleLine="true"
+                    android:textColor="@color/textColordark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/order_btn_submit_order"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                android:background="@color/colorAccent"
+                android:text="Create Offer"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,7 +7,6 @@
     tools:context=".activity.MainActivity">
 
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,16 +15,20 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:gravity="center"
-        android:text="Press Here For Register \n Your Daily Attendance !"
+        android:text="Press The Button For Register \n Your Daily Attendance !"
         android:textColor="@color/navigationBarColor"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <ImageView
+    <Button
         android:id="@+id/attendance_img_fingerprint"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/fingerprint" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/shape"
+        android:text="Click Here ! "
+        android:textColor="@color/background" />
 
 </LinearLayout>

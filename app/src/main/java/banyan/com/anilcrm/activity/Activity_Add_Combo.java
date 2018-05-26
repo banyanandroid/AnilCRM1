@@ -1,8 +1,10 @@
 package banyan.com.anilcrm.activity;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +42,7 @@ import java.util.Map;
 
 import banyan.com.anilcrm.R;
 import banyan.com.anilcrm.adapter.MyListAdapter;
-import banyan.com.anilcrm.adapter.MyList_SaleseAdapter;
+import banyan.com.anilcrm.database.DBManager;
 import banyan.com.anilcrm.global.SessionManager;
 import banyan.com.anilcrm.model.Hero;
 import dmax.dialog.SpotsDialog;
@@ -49,7 +51,7 @@ import dmax.dialog.SpotsDialog;
  * Created by Jothiprabhakar on 29-Mar-18.
  */
 
-public class Activity_Sales_Return_Form extends AppCompatActivity {
+public class Activity_Add_Combo extends AppCompatActivity {
 
     private Toolbar mToolbar;
     SpotsDialog dialog;
@@ -61,10 +63,10 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
     Button btn_add_to_cart, btn_submit;
 
-    SearchableSpinner spinner_region,spinner_shop_type,spinner_shop, spinner_category, spinner_product;
+    SearchableSpinner spinner_shop, spinner_category, spinner_product;
 
 
-    EditText edt_qty;
+    EditText edt_amount, edt_name;
 
     ListView list_cart;
 
@@ -103,19 +105,19 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
     //SESSION
     String str_user_email, str_user_id = "";
     String str_final_order = "";
-    String str_shop, str_Shop_id, str_group, str_group_id, str_product, str_product_id, str_price, str_qty, str_shop_type = "";
-
-    public static float float_total_qty = 0;
+    String str_offer_name, str_Shop_id, str_group, str_group_id, str_product, str_product_id, str_price, str_qty, str_shop_type = "";
+    String str_final_offer_name, str_final_offer_amount = "";
+    public static float float_total_amount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_salesreturn_form);
+        setContentView(R.layout.activity_combo_form);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Sales Return Form");
+        getSupportActionBar().setTitle("Add Combo Offer");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_back));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -123,7 +125,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("from_value", "sales");
+                i.putExtra("combo", "combo");
                 startActivity(i);
                 finish();
             }
@@ -135,11 +137,11 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
         str_user_email = user.get(SessionManager.KEY_USER);
         str_user_id = user.get(SessionManager.KEY_USER_ID);
 
-        spinner_shop = (SearchableSpinner) findViewById(R.id.order_spinner_shop);
         spinner_category = (SearchableSpinner) findViewById(R.id.order_spinner_category);
         spinner_product = (SearchableSpinner) findViewById(R.id.order_spinner_product);
 
-        edt_qty = (EditText) findViewById(R.id.order_edt_qty);
+        edt_amount = (EditText) findViewById(R.id.order_edt_qty);
+        edt_name = (EditText) findViewById(R.id.order_edt_name);
 
         txt_total = (TextView) findViewById(R.id.order_txt_total_amt);
 
@@ -150,9 +152,6 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
         System.out.println("SESSION USER EMAIL   " + str_user_email);
         System.out.println("SESSION USER ID      " + str_user_id);
-
-        Arraylist_shop_id = new ArrayList<String>();
-        Arraylist_shop_name = new ArrayList<String>();
 
         Arraylist_group_id = new ArrayList<String>();
         Arraylist_group_name = new ArrayList<String>();
@@ -174,25 +173,6 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
         complaint_list = new ArrayList<HashMap<String, String>>();
         Arraylist_selected_product = new ArrayList<String>();
 
-        spinner_shop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                System.out.println("Shop");
-
-                t1 = (TextView) view;
-                str_shop = t1.getText().toString();
-                str_Shop_id = Arraylist_shop_id.get(position);
-
-                System.out.println("Shop ID : " + str_Shop_id);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -211,10 +191,10 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
                 if (str_Shop_id == null) {
                     TastyToast.makeText(getApplicationContext(), "Please Select a Shop", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-                }else {
-                    dialog = new SpotsDialog(Activity_Sales_Return_Form.this);
+                } else {
+                    dialog = new SpotsDialog(Activity_Add_Combo.this);
                     dialog.show();
-                    queue = Volley.newRequestQueue(Activity_Sales_Return_Form.this);
+                    queue = Volley.newRequestQueue(Activity_Add_Combo.this);
                     Function_Get_Product();
                 }
 
@@ -254,32 +234,25 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                str_qty = edt_qty.getText().toString().trim();
-
-                if (str_Shop_id == null) {
-                    TastyToast.makeText(getApplicationContext(), "Please Select a Shop", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-                }else if (str_shop_type.equals("Customer Type")) {
-                    TastyToast.makeText(getApplicationContext(), "Select Customer Type", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-                } else if (str_group_id == null) {
+                if (str_group_id == null) {
                     TastyToast.makeText(getApplicationContext(), "Please Select Category", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else if (str_product_id == null) {
                     TastyToast.makeText(getApplicationContext(), "Please Select Product", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-                } else if (str_qty.equals("")) {
-                    TastyToast.makeText(getApplicationContext(), "Please Enter the Quantity", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else if (str_price == null) {
                     TastyToast.makeText(getApplicationContext(), "Internal Price Error", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 } else {
 
+
+                    String str_amt = "";
+
                     System.out.println("QTY " + str_qty);
                     System.out.println("PRICE " + str_price);
-                    System.out.println("TATAL " + "");
+                    System.out.println("TATAL " + str_amt);
 
-                    heroList.add(new Hero(str_product_id, str_group_id, "", str_product, str_qty));
+                    heroList.add(new Hero(str_product_id, str_group_id, str_amt, str_product, str_qty));
 
-                    MyList_SaleseAdapter adapter = new MyList_SaleseAdapter(Activity_Sales_Return_Form.this, R.layout.my_custom_list, heroList);
+                    MyListAdapter adapter = new MyListAdapter(Activity_Add_Combo.this, R.layout.my_custom_list, heroList);
                     list_cart.setAdapter(adapter);
-                    Fun_Total_Cal();
-                    TastyToast.makeText(getApplicationContext(), "Product Added Into Return Cart", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
                 }
 
             }
@@ -289,132 +262,22 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                str_final_offer_name = edt_name.getText().toString().trim();
+                str_final_offer_amount = edt_amount.getText().toString().trim();
+
                 Get_VALUE();
             }
         });
 
-        Arraylist_shop_name.clear();
-        Arraylist_shop_id.clear();
-
-        dialog = new SpotsDialog(Activity_Sales_Return_Form.this);
+        dialog = new SpotsDialog(Activity_Add_Combo.this);
         dialog.show();
-        queue = Volley.newRequestQueue(Activity_Sales_Return_Form.this);
-        Function_Get_SHOP();
+        Arraylist_group_id.clear();
+        Arraylist_group_name.clear();
 
-    }
+        queue = Volley.newRequestQueue(Activity_Add_Combo.this);
+        Function_Get_ProdcutGroup();
 
-    /******************************************
-     *    Sum of Arraylist
-     * *******************************************/
-
-    public static void Fun_Total_Cal() {
-
-        System.out.println("WELCOMEEEEEEEEEEDDDDDDDDDDDDD ");
-        float_total_qty = 0;
-
-        if (heroList.size() == 0) {
-            txt_total.setText("Total Qty : " + "0");
-        } else {
-            for (int i = 0; i < heroList.size(); i++) {
-                Hero hero = heroList.get(i);
-                String str_qty = hero.getQty();
-
-                Float qty = Float.parseFloat(str_qty);
-                float_total_qty = float_total_qty + qty;
-
-                txt_total.setText("Total Qty : " + float_total_qty);
-            }
-        }
-    }
-
-    /***************************
-     * GET Shop Info
-     ***************************/
-
-    public void Function_Get_SHOP() {
-
-        String tag_json_obj = "json_obj_req";
-        System.out.println("CAME 1");
-        StringRequest request = new StringRequest(Request.Method.POST,
-                AppConfig.url_user_shop_list, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    int success = obj.getInt("success");
-
-                    if (success == 1) {
-
-                        JSONArray arr;
-
-                        arr = obj.getJSONArray("message");
-
-                        for (int i = 0; arr.length() > i; i++) {
-                            JSONObject obj1 = arr.getJSONObject(i);
-
-                            String id = obj1.getString("shop_id");
-                            String name = obj1.getString("shop_name");
-
-                            Arraylist_shop_name.add(name);
-                            Arraylist_shop_id.add(id);
-
-                            try {
-                                spinner_shop
-                                        .setAdapter(new ArrayAdapter<String>(Activity_Sales_Return_Form.this,
-                                                android.R.layout.simple_spinner_dropdown_item,
-                                                Arraylist_shop_name));
-
-                            } catch (Exception e) {
-
-                            }
-                        }
-
-                        Arraylist_group_id.clear();
-                        Arraylist_group_name.clear();
-
-                        queue = Volley.newRequestQueue(Activity_Sales_Return_Form.this);
-                        Function_Get_ProdcutGroup();
-
-                        dialog.dismiss();
-                    } else if (success == 0) {
-
-                        dialog.dismiss();
-                        TastyToast.makeText(getApplicationContext(), "No Agency Found", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-
-                    }
-
-                    dialog.dismiss();
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                dialog.dismiss();
-
-                TastyToast.makeText(getApplicationContext(), "Internal Error !", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("user_id", str_user_id);
-
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        queue.add(request);
     }
 
     /***************************
@@ -452,7 +315,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
                             try {
                                 spinner_category
-                                        .setAdapter(new ArrayAdapter<String>(Activity_Sales_Return_Form.this,
+                                        .setAdapter(new ArrayAdapter<String>(Activity_Add_Combo.this,
                                                 android.R.layout.simple_spinner_dropdown_item,
                                                 Arraylist_group_name));
 
@@ -538,7 +401,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
                             try {
                                 spinner_product
-                                        .setAdapter(new ArrayAdapter<String>(Activity_Sales_Return_Form.this,
+                                        .setAdapter(new ArrayAdapter<String>(Activity_Add_Combo.this,
                                                 android.R.layout.simple_spinner_dropdown_item,
                                                 Arraylist_product_name));
 
@@ -593,6 +456,8 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
     }
 
     /********************************
+     * Vivekanandhan
+     *
      * Function Get Product
      * ******************************/
     public void Get_VALUE() {
@@ -620,7 +485,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
             String str_final_qty = Arraylist_qty.get(j);
             String str_final_price = Arraylist_price.get(j);
 
-            String final_order = str_final_id + "-" + str_final_groupid + "-" + str_final_qty;
+            String final_order = str_final_id + "-" + str_final_groupid;
 
             Arraylist_final.add(final_order);
         }
@@ -632,30 +497,79 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
         System.out.println("PRODUCT_DETAILS   :::::" + str_final_order);
         System.out.println("SHOP ID   :::::" + str_Shop_id);
 
-        if (str_Shop_id != null && !str_Shop_id.isEmpty() && !str_Shop_id.equals("null")){
-            if (str_final_order.equals("")) {
+        if (str_final_order.equals("")) {
 
-                TastyToast.makeText(getApplicationContext(), "Select Your Product", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+            TastyToast.makeText(getApplicationContext(), "Select Your Product", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
 
-            } else {
+        } else if (str_final_offer_name.equals("")) {
 
-                System.out.println("SESSION_ID    :::::" + str_user_id);
-                System.out.println("PRODUCT_DETAILS   :::::" + str_final_order);
-                System.out.println("SHOP ID   :::::" + str_Shop_id);
+            TastyToast.makeText(getApplicationContext(), "Select Enter Offer Name", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
 
-                try {
-                    dialog = new SpotsDialog(Activity_Sales_Return_Form.this);
+        } else if (str_final_offer_amount.equals("")) {
+
+            TastyToast.makeText(getApplicationContext(), "Select Enter Offer Amount", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+
+        } else {
+
+            System.out.println("SESSION_ID    :::::" + str_user_id);
+            System.out.println("PRODUCT_DETAILS   :::::" + str_final_order);
+            System.out.println("OFFER AMOUNT  :::::" + str_final_offer_amount);
+            System.out.println("OFFER NAME  :::::" + str_final_offer_name);
+
+            try {
+                // Vivekanandhan
+                // check network is connected
+                if (isNetworkConnected()) {
+
+                    dialog = new SpotsDialog(Activity_Add_Combo.this);
                     dialog.show();
-                    queue = Volley.newRequestQueue(Activity_Sales_Return_Form.this);
+                    queue = Volley.newRequestQueue(Activity_Add_Combo.this);
                     Function_Proceed();
-                } catch (Exception e) {
+
+                } else {
+
+                    //store data in local db
+                    DBManager dbManager = new DBManager(this);
+                    dbManager.open();
+                    long response = dbManager.insert_Order_Form(str_Shop_id, str_final_order, str_user_id);
+                    System.out.println("### response : " + response);
+                    if (response == -1) {
+
+                        TastyToast.makeText(getApplicationContext(), "Oops...! Try again Later..!", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+
+                    } else {
+
+                        TastyToast.makeText(getApplicationContext(), "Order Placed Successfully!", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+                        new AlertDialog.Builder(Activity_Add_Combo.this)
+                                .setTitle("Anil Foods")
+                                .setMessage("Order Placed Successfully !")
+                                .setIcon(R.mipmap.ic_launcher)
+                                .setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+
+                                                                int which) {
+                                                // TODO Auto-generated method stub
+
+                                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                                i.putExtra("from_value", "order");
+                                                startActivity(i);
+
+                                            }
+
+                                        }).show();
+
+
+                    }
 
                 }
-            }
-        }else {
-            TastyToast.makeText(getApplicationContext(), "Select Shop", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-        }
 
+            } catch (Exception e) {
+                System.out.println("### Exception");
+            }
+        }
 
     }
 
@@ -664,11 +578,8 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
      * ****************************************/
     private void Function_Proceed() {
 
-        System.out.println("SALES RETUREN CAME");
-
-
         StringRequest request = new StringRequest(Request.Method.POST,
-                AppConfig.url_sales_return, new Response.Listener<String>() {
+                AppConfig.url_add_order, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
@@ -687,7 +598,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
 
                         TastyToast.makeText(getApplicationContext(), "Order Placed Successfully!", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
 
-                        new AlertDialog.Builder(Activity_Sales_Return_Form.this)
+                        new AlertDialog.Builder(Activity_Add_Combo.this)
                                 .setTitle("Anil Foods")
                                 .setMessage("Order Placed Successfully !")
                                 .setIcon(R.mipmap.ic_launcher)
@@ -700,7 +611,7 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
                                                 // TODO Auto-generated method stub
 
                                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                                i.putExtra("from_value", "sales");
+                                                i.putExtra("from_value", "order");
                                                 startActivity(i);
 
                                             }
@@ -730,13 +641,15 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("shop_id", str_Shop_id);
-                params.put("product_id", str_final_order);
+                params.put("offer_name", str_final_offer_name);
+                params.put("product_details", str_final_order);
+                params.put("amount", str_final_offer_amount);
                 params.put("user_id", str_user_id);
 
-                System.out.println("SHOP ID   :::::" + str_Shop_id);
+                System.out.println("OFFER NAME  :::::" + str_final_offer_name);
+                System.out.println("OFFER AMOUNT  :::::" + str_final_offer_amount);
                 System.out.println("USER ID        :::::" + str_user_id);
-                System.out.println("product_id   :::::" + str_final_order);
+                System.out.println("PRODUCT_DETAILS   :::::" + str_final_order);
 
                 return checkParams(params);
                 //return params;
@@ -761,4 +674,12 @@ public class Activity_Sales_Return_Form extends AppCompatActivity {
         // Adding request to request queue
         queue.add(request);
     }
+
+    private boolean isNetworkConnected() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+
 }

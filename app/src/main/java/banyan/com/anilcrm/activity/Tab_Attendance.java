@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ import pugman.com.simplelocationgetter.SimpleLocationGetter;
  */
 public class Tab_Attendance extends Fragment implements SimpleLocationGetter.OnLocationGetListener{
 
-    ImageView img_finger;
+    Button img_finger;
 
     String TAG = "Attendance";
 
@@ -75,7 +76,7 @@ public class Tab_Attendance extends Fragment implements SimpleLocationGetter.OnL
         str_user_name = user.get(SessionManager.KEY_USER);
         str_user_id = user.get(SessionManager.KEY_USER_ID);
 
-        img_finger = (ImageView) rootview.findViewById(R.id.attendance_img_fingerprint);
+        img_finger = (Button) rootview.findViewById(R.id.attendance_img_fingerprint);
 
         img_finger.setOnClickListener(new View.OnClickListener() {
             @Override
